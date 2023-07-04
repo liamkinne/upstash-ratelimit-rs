@@ -90,8 +90,8 @@ impl RateLimit {
 
                 let mut redis = self.redis.get_connection()?;
                 let tokens_used: u64 = script
-                    .arg(&[key])
-                    .arg(&[format!("{}", window_duration)])
+                    .key(key)
+                    .arg(format!("{}", window_duration))
                     .invoke(&mut redis)?;
 
                 let reset = Duration::from_millis(((bucket + 1) * window_duration) as u64);
