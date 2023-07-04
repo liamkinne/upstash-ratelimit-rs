@@ -20,6 +20,12 @@ impl RateLimitBuilder {
         self
     }
 
+    /// Add a limiter.
+    pub fn limiter(mut self, limiter: Limiter) -> RateLimitBuilder {
+        self.limiter = Some(limiter);
+        self
+    }
+
     /// Enable analytics to get a better understanding of hour your
     /// ratelimiting is performing.
     ///
