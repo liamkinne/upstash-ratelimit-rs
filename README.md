@@ -44,4 +44,7 @@ match result {
 - [x] Arbitrary key prefix
 - [ ] Ephemeral (in-memory) cache
 - [ ] Block until ready
+- [ ] HTTP Redis connection
+    - This will require substantial effort and should probably reside in a separate library.
 - [ ] Analytics
+    - This will require substantial efford and should probably reside in a separate library.
