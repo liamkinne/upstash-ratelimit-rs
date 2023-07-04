@@ -16,7 +16,7 @@ fn test_success() {
         .build()
         .unwrap();
 
-    let result = ratelimit.limit("test".to_string()).unwrap();
+    let result = ratelimit.limit("test").unwrap();
 
     match result {
         Response::Success { .. } => {
