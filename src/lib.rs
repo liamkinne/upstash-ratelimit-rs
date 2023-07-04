@@ -55,7 +55,10 @@ impl RateLimit {
     /// Apply limiting based on a given unique identifier.
     ///
     /// The identifier could be a user id,
-    pub fn limit(self, identifier: String) -> Result<Response> {
+    pub fn limit<T>(self, identifier: T) -> Result<Response>
+    where
+        T: Into<String> + std::fmt::Display,
+    {
         return match self.limiter {
             Limiter::FixedWindow { tokens, window } => {
                 let script = redis::Script::new(
