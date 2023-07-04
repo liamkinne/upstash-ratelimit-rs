@@ -6,11 +6,10 @@ This library is inspired by and designed to be compatible with the [Upstash Rate
 
 - [x] Single region Redis
 - [ ] Multi-region Redis
-- Limiting methods:
-    - [x] Fixed window
-    - [ ] Sliding window
-    - [ ] Token bucket
-    - [ ] Cached fixed window
+- [x] Fixed window limiting
+- [ ] Sliding window limiting
+- [ ] Token bucket limiting
+- [ ] Cached fixed window limiting
 - [x] Arbitrary key prefix
 - [ ] Ephemeral (in-memory) cache
 - [ ] Block until ready
