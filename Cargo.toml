@@ -9,3 +9,6 @@ license = "MIT"
 [dependencies]
 anyhow = "1.0.71"
 redis = "0.23.0"
+
+[dev-dependencies]
+lazy_static = "1.4.0"
