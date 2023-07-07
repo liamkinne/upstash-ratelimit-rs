@@ -37,7 +37,7 @@ match result {
 
 Before running `cargo test`, spin up a Redis instance on `localhost` with `docker-compose up -d`. It's a good idea to restart Redis between test runs.
 
-## Feature Support
+## Feature Coverage
 
 - [x] Single region Redis
 - [ ] Multi-region Redis
