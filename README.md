@@ -14,7 +14,7 @@ Add the dependency
 cargo add upstash-ratelimit
 ```
 
-Use upstash_ratelimit to
+Use upstash_ratelimit to requests
 
 ```rust
 use upstash_ratelimit::{Limiter, RateLimit, Response};
