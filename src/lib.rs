@@ -110,6 +110,75 @@ impl RateLimit {
                     })
                 }
             }
+            Limiter::SlidingWindow { tokens, window } => {
+                let script = Script::new(
+                    r#"
+                        local currentKey  = KEYS[1]           -- identifier including prefixes
+                        local previousKey = KEYS[2]           -- key of the previous bucket
+                        local tokens      = tonumber(ARGV[1]) -- tokens per window
+                        local now         = ARGV[2]           -- current timestamp in milliseconds
+                        local window      = ARGV[3]           -- interval in milliseconds
+
+                        local requestsInCurrentWindow = redis.call("GET", currentKey)
+                        if requestsInCurrentWindow == false then
+                        requestsInCurrentWindow = -1
+                        end
+
+
+                        local requestsInPreviousWindow = redis.call("GET", previousKey)
+                        if requestsInPreviousWindow == false then
+                        requestsInPreviousWindow = 0
+                        end
+                        local percentageInCurrent = ( now % window) / window
+                        if requestsInPreviousWindow * ( 1 - percentageInCurrent ) + requestsInCurrentWindow >= tokens then
+                        return -1
+                        end
+
+                        local newValue = redis.call("INCR", currentKey)
+                        if newValue == 1 then
+                        -- The first time this key is set, the value will be 1.
+                        -- So we only need the expire command once
+                        redis.call("PEXPIRE", currentKey, window * 2 + 1000) -- Enough time to overlap with a new window + 1 second
+                        end
+                        return tokens - newValue
+                    "#,
+                );
+
+                let window_duration = window.as_millis();
+
+                let now = self.now()?.as_millis();
+                let current_window = now / window_duration;
+                let current_key = format!("{}:{}", identifier, current_window);
+                let previous_window = current_window - window_duration;
+                let previous_key = format!("{}:{}", identifier, previous_window);
+
+                // todo: implement in-memory chache
+
+                let mut redis = self.redis.get_connection()?;
+
+                let remaining: i64 = script
+                    .key(current_key)
+                    .key(previous_key)
+                    .arg(tokens)
+                    .arg(now as u64)
+                    .arg(window_duration as u64)
+                    .invoke(&mut redis)?;
+
+                let reset = Duration::from_millis(((current_window + 1) * window_duration) as u64);
+
+                if remaining < 0 {
+                    Ok(Response::Failure {
+                        limit: tokens,
+                        reset,
+                    })
+                } else {
+                    Ok(Response::Success {
+                        limit: tokens,
+                        remaining: remaining.max(0_i64) as u64,
+                        reset,
+                    })
+                }
+            }
             _ => unimplemented!("Limiter method not implemented."),
         };
     }
