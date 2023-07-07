@@ -54,7 +54,7 @@ impl RateLimit {
 
     /// Apply limiting based on a given unique identifier.
     ///
-    /// The identifier could be a user id,
+    /// The identifier could be a user id, IP address or any other string.
     pub fn limit<T>(&self, identifier: T) -> Result<Response>
     where
         T: Into<String> + std::fmt::Display,
