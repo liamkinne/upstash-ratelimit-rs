@@ -1,3 +1,5 @@
+![crates.io](https://img.shields.io/crates/v/upstash-ratelimit.svg)
+
 # Redis Backed Rate Limit
 
 This library is inspired by and designed to be compatible with the [Upstash Rate Limit](https://github.com/upstash/ratelimit) library. This means you can have multiple JavaScript and Rust services operate on the same Redis keys and use the same rate limiting algorithms.
