@@ -27,15 +27,8 @@ pub enum Limiter {
 }
 
 pub enum Response {
-    Success {
-        limit: u64,
-        remaining: u64,
-        reset: Duration,
-    },
-    Failure {
-        limit: u64,
-        reset: Duration,
-    },
+    Success { remaining: u64, reset: Duration },
+    Failure { reset: Duration },
 }
 
 pub struct RateLimit {
@@ -99,15 +92,11 @@ impl RateLimit {
 
                 if tokens_used <= tokens {
                     Ok(Response::Success {
-                        limit: tokens,
                         remaining: tokens - tokens_used,
                         reset,
                     })
                 } else {
-                    Ok(Response::Failure {
-                        limit: tokens,
-                        reset,
-                    })
+                    Ok(Response::Failure { reset })
                 }
             }
             Limiter::SlidingWindow { tokens, window } => {
@@ -167,13 +156,9 @@ impl RateLimit {
                 let reset = Duration::from_millis(((current_window + 1) * window_duration) as u64);
 
                 if remaining < 0 {
-                    Ok(Response::Failure {
-                        limit: tokens,
-                        reset,
-                    })
+                    Ok(Response::Failure { reset })
                 } else {
                     Ok(Response::Success {
-                        limit: tokens,
                         remaining: remaining.max(0_i64) as u64,
                         reset,
                     })
