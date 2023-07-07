@@ -1,12 +1,12 @@
 [package]
-name = "ratelimit"
+name = "upstash-ratelimit"
 authors = [ "Liam Kinne <liam@kinne.io>" ]
-description = "Redis-based rate limiting library."
+description = "Upstash ratelimit compatible rate limiting library."
 categories = [ "web-programming" ]
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
-documentation = "https://docs.rs/ratelimit"
+documentation = "https://docs.rs/upstash-ratelimit"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

@@ -1,19 +1,19 @@
 # Redis Backed Rate Limit
 
-This library is inspired by and designed to be compatible with the [Upstash Rate Limit](https://github.com/upstash/ratelimit) library.
+This library is inspired by and designed to be compatible with the [Upstash Rate Limit](https://github.com/upstash/ratelimit) library. This means you can have multiple JavaScript and Rust services operate on the same Redis keys and use the same rate limiting algorithms.
 
 ## Getting Started
 
 Add the dependency
 
 ```shell
-cargo add ratelimit
+cargo add upstash-ratelimit
 ```
 
-Use ratelimit to
+Use upstash_ratelimit to
 
 ```rust
-use ratelimit::{Limiter, RateLimit, Response};
+use upstash_ratelimit::{Limiter, RateLimit, Response};
 
 let redis = redis::Client::open("redis://127.0.0.1/")?;
 
