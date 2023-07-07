@@ -57,6 +57,7 @@ impl RateLimitBuilder {
         self
     }
 
+    /// Generate a RateLimit instance.
     pub fn build(self) -> Result<RateLimit, &'static str> {
         // apply default prefix if none is specified
         let prefix = match self.prefix.is_empty() {
