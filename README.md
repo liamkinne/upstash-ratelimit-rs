@@ -52,3 +52,7 @@ Before running `cargo test`, spin up a Redis instance on `localhost` with `docke
     - This will require substantial effort and should probably reside in a separate library.
 - [ ] Analytics
     - This will require substantial efford and should probably reside in a separate library.
+
+## Other Tasks
+
+- [ ] Compatibility integration testing with JS client.
