@@ -3,7 +3,7 @@
 pub mod builder;
 
 use anyhow::{anyhow, Result};
-use redis::Client as RedisClient;
+use redis::{Client as RedisClient, Script};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 pub enum Limiter {
@@ -61,7 +61,7 @@ impl RateLimit {
     {
         return match self.limiter {
             Limiter::FixedWindow { tokens, window } => {
-                let script = redis::Script::new(
+                let script = Script::new(
                     r#"
                     local key     = KEYS[1]
                     local window  = ARGV[1]
