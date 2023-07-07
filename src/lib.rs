@@ -86,7 +86,7 @@ impl RateLimit {
                 let bucket = since_epoch / window_duration;
                 let key = format!("{}:{}", identifier, bucket);
 
-                // todo: implement in-memory chache
+                // todo: implement in-memory cache
 
                 let mut redis = self.redis.get_connection()?;
                 let tokens_used: u64 = script
