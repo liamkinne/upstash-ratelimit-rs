@@ -1,5 +1,5 @@
-use ratelimit::{Limiter, RateLimit, Response};
 use std::time::Duration;
+use upstash_ratelimit::{Limiter, RateLimit, Response};
 
 lazy_static::lazy_static! {
     static ref REDIS: redis::Client = redis::Client::open("redis://127.0.0.1/").unwrap();
