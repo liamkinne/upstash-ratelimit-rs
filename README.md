@@ -33,6 +33,10 @@ match result {
 }
 ```
 
+## Running Unit Tests
+
+Before running `cargo test`, spin up a Redis instance on `localhost` with `docker-compose up -d`. It's a good idea to restart Redis between test runs.
+
 ## Feature Support
 
 - [x] Single region Redis
