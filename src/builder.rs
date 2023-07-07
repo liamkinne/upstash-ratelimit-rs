@@ -59,12 +59,6 @@ impl RateLimitBuilder {
 
     /// Generate a RateLimit instance.
     pub fn build(self) -> Result<RateLimit, &'static str> {
-        // apply default prefix if none is specified
-        let prefix = match self.prefix.is_empty() {
-            true => self.prefix,
-            false => "@upstash/ratelimit".to_string(),
-        };
-
         let redis = match self.redis {
             Some(r) => r,
             None => return Err("No redis client was defined."),
@@ -73,6 +67,12 @@ impl RateLimitBuilder {
         let limiter = match self.limiter {
             Some(l) => l,
             None => return Err("No limiter was defined."),
+        };
+
+        // apply default prefix if none is specified
+        let prefix = match self.prefix.is_empty() {
+            true => self.prefix,
+            false => "@upstash/ratelimit".to_string(),
         };
 
         Ok(RateLimit {
