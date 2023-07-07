@@ -7,28 +7,57 @@ use redis::{Client as RedisClient, Script};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 pub enum Limiter {
+    /// Each request inside a fixed time increases as counter. Once the
+    /// counter reaches the maximum allowed number, all futher requetss are
+    /// rejected.
     FixedWindow {
+        /// How many requests are allowed per window.
         tokens: u64,
+        /// Duration in which the request limit is replied.
         window: Duration,
     },
+    ///
     SlidingLogs {
+        /// How many requests are allowed per window.
         tokens: u64,
+        /// Duration in which the request limit is replied.
         window: Duration,
     },
+    /// Sliding version of `fixedWindow` with lower storage width improved
+    /// boundary behavior by calculating a weighted score between two windows.
     SlidingWindow {
+        /// How many requests are allowed per window.
         tokens: u64,
+        /// Duration in which the request limit is replied.
         window: Duration,
     },
+    /// Each bucket is filled with `max_tokens` that refills until full at a
+    /// rate of `refill_rate` per `interval`. Every request will remove one
+    /// token from the bucket and if there is no tokens left, the request is
+    /// rejected.
     TokenBucket {
+        /// How many requests are allowed per window.
         refill_rate: u64,
+        /// The interval for the refill rate.
         interval: Duration,
+        /// Maximum number of tokens.
+        ///
+        /// A newly created bucket starts with this many tokens.
         max_tokens: u64,
     },
 }
 
 pub enum Response {
-    Success { remaining: u64, reset: Duration },
-    Failure { reset: Duration },
+    Success {
+        /// Remaining tokens before rate limiting is applied.
+        remaining: u64,
+        /// Amount of time until rate limit is lifted.
+        reset: Duration,
+    },
+    Failure {
+        /// Amount of time until rate limit is lifted.
+        reset: Duration,
+    },
 }
 
 pub struct RateLimit {
