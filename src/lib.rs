@@ -52,6 +52,11 @@ impl RateLimit {
         builder::RateLimitBuilder::default()
     }
 
+    /// Get current system time
+    fn now(&self) -> Result<Duration> {
+        Ok(SystemTime::now().duration_since(UNIX_EPOCH)?)
+    }
+
     /// Apply limiting based on a given unique identifier.
     ///
     /// The identifier could be a user id, IP address or any other string.
@@ -78,12 +83,8 @@ impl RateLimit {
                 );
 
                 let window_duration = window.as_millis();
-
-                let since_epoch = SystemTime::now()
-                    .duration_since(UNIX_EPOCH)
-                    .expect("Time went backwards")
-                    .as_millis();
-                let bucket = since_epoch / window_duration;
+                let now = self.now()?.as_millis();
+                let bucket = now / window_duration;
                 let key = format!("{}:{}", identifier, bucket);
 
                 // todo: implement in-memory cache
