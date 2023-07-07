@@ -2,6 +2,8 @@
 
 This library is inspired by and designed to be compatible with the [Upstash Rate Limit](https://github.com/upstash/ratelimit) library. This means you can have multiple JavaScript and Rust services operate on the same Redis keys and use the same rate limiting algorithms.
 
+Please note this library is not yet stable. The first stable version will be publushed to crates.io as v0.2.0.
+
 ## Getting Started
 
 Add the dependency
