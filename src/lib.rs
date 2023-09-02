@@ -1,3 +1,5 @@
+//! Upstash Rate Limit
+
 #![allow(unused)]
 
 pub mod builder;
