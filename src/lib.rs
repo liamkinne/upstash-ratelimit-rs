@@ -47,13 +47,16 @@ pub enum Limiter {
     },
 }
 
+/// Limiter response.
 pub enum Response {
+    /// Successful response.
     Success {
         /// Remaining tokens before rate limiting is applied.
         remaining: u64,
         /// Amount of time until rate limit is lifted.
         reset: Duration,
     },
+    /// Failed response, meaning the rate-limit should be applied.
     Failure {
         /// Amount of time until rate limit is lifted.
         reset: Duration,
