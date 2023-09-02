@@ -46,7 +46,7 @@ Before running `cargo test`, spin up a Redis instance on `localhost` with `docke
 - [x] Single region Redis
 - [ ] Multi-region Redis
 - [x] Fixed window limiting
-- [ ] Sliding window limiting
+- [x] Sliding window limiting
 - [ ] Token bucket limiting
 - [ ] Cached fixed window limiting
 - [x] Arbitrary key prefix
