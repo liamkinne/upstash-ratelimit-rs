@@ -63,6 +63,7 @@ pub enum Response {
     },
 }
 
+/// Rate limiter instance.
 pub struct RateLimit {
     redis: RedisClient,
     limiter: Limiter,
